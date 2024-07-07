@@ -14,6 +14,8 @@ function createOperandItem(){
     operandInput.classList.add('form-control');
     operandInput.oninput = function(){this.value = this.value.toUpperCase()};
 
+    operandInput.addEventListener('change', onChangeHandler);
+
     const operandCol = document.createElement('div');
     operandCol.classList.add('col-11');
     operandCol.append(operandInput);
@@ -126,9 +128,33 @@ function getInput(){
 
 function onSubmitHandler(event){
     event.preventDefault();
-    const cryptarithmetic = new Cryptarithmetic(getInput());
-    document.getElementById('result-content').innerHTML = cryptarithmetic.solve();
+    var input = getInput();
+    const cryptarithmetic = new Cryptarithmetic(input);
+    var output = cryptarithmetic.solve();
+    document.getElementById('result-content').innerHTML = output;
+    const eventName = "SUBMIT_FORM";
+    const value = JSON.stringify({
+        'operand': input.operand,
+        'result': input.result,
+        'idxChar': cryptarithmetic.idxChar,
+        'solution': cryptarithmetic.sol
+    });
+    updateSession();
+    trackEvent(eventName, value);
+}
+
+function onChangeHandler(event){
+    const eventName = "CHANGE_FORM";
+    const value = JSON.stringify({
+        'id': event.target.id,
+        'value': event.target.value
+    });
+    updateSession();
+    trackEvent(eventName, value);
 }
 
 document.getElementById("add-operand-button").addEventListener("click", createOperandItem);
 document.getElementById("input-form").addEventListener("submit", onSubmitHandler);
+document.getElementById("operand-1").addEventListener("change", onChangeHandler);
+document.getElementById("operand-2").addEventListener("change", onChangeHandler);
+document.getElementById("result").addEventListener("change", onChangeHandler);

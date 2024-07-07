@@ -127,7 +127,6 @@ class Cryptarithmetic{
 
     solve(){
         this.n = Object.keys(this.idxChar).length - 1;
-        // console.log(this, );
         if(this.n < 10){
             if(this.isSolveable()){
                 this.arr = Array(this.n+1).fill(-1);
