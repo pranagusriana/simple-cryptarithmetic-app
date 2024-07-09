@@ -95,13 +95,14 @@ class Cryptarithmetic{
         for(let key in this.idxChar){
             arrchr.push(key);
         }
+        arrchr.sort();
 
         strRet += `<p>Terdapat <span class="text-success fw-bold text-center">${this.sol.length} Solusi</span> dari Persoalan Cryptarithmetic ini, yaitu:</p>`
 
         for(let solusi of this.sol){
             var strSol = ""
             for(let i=0; i<arrchr.length; i++){
-                strSol += `${arrchr[i]}=${solusi[i]}${i != arrchr.length - 1 ? ', ' : ' '}`;
+                strSol += `${arrchr[i]}=${solusi[this.idxChar[arrchr[i]]]}${i != arrchr.length - 1 ? ', ' : ' '}`;
             }
             strRet += `<p>Solusi ke-${solusike}: ${strSol}</p>`;
             strRet += `<div class="card mb-5">`;
